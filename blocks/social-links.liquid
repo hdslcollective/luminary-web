@@ -1,0 +1,81 @@
+{% liquid
+  assign block_settings = block.settings
+%}
+
+<div class="social-links" {{ block.shopify_attributes }}>
+  <ul class="social-links__list">
+    {% if settings.social_facebook_link != blank %}
+      <li class="social-links__item">
+        <a href="{{ settings.social_facebook_link }}" class="social-links__link" target="_blank" rel="noopener noreferrer">
+          <span class="visually-hidden">Facebook</span>
+          {% render 'icon', icon: 'facebook' %}
+        </a>
+      </li>
+    {% endif %}
+    {% if settings.social_instagram_link != blank %}
+      <li class="social-links__item">
+        <a href="{{ settings.social_instagram_link }}" class="social-links__link" target="_blank" rel="noopener noreferrer">
+          <span class="visually-hidden">Instagram</span>
+          {% render 'icon', icon: 'instagram' %}
+        </a>
+      </li>
+    {% endif %}
+    {% if settings.social_twitter_link != blank %}
+      <li class="social-links__item">
+        <a href="{{ settings.social_twitter_link }}" class="social-links__link" target="_blank" rel="noopener noreferrer">
+          <span class="visually-hidden">Twitter</span>
+          {% render 'icon', icon: 'twitter' %}
+        </a>
+      </li>
+    {% endif %}
+    {% if settings.social_youtube_link != blank %}
+      <li class="social-links__item">
+        <a href="{{ settings.social_youtube_link }}" class="social-links__link" target="_blank" rel="noopener noreferrer">
+          <span class="visually-hidden">YouTube</span>
+          {% render 'icon', icon: 'youtube' %}
+        </a>
+      </li>
+    {% endif %}
+  </ul>
+</div>
+
+{% stylesheet %}
+  .social-links__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: var(--spacing-sm, 0.5rem);
+  }
+
+  .social-links__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    color: currentColor;
+    text-decoration: none;
+  }
+
+  .social-links__link svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .social-links__link:hover {
+    opacity: 0.7;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.social_links",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:content.social_links_info"
+    }
+  ]
+}
+{% endschema %}

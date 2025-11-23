@@ -1,0 +1,66 @@
+{% liquid
+  assign block_settings = block.settings
+  assign current_year = 'now' | date: '%Y'
+%}
+
+<div class="footer-copyright" {{ block.shopify_attributes }}>
+  <p class="footer-copyright__text {% if block_settings.type_preset %}type-preset--{{ block_settings.type_preset }}{% endif %}">
+    {% if block_settings.show_copyright_symbol %}&copy;{% endif %}
+    {{ current_year }}
+    {% if block_settings.show_shop_name %}{{ shop.name }}{% endif %}
+    {% if block_settings.custom_text != blank %}{{ block_settings.custom_text }}{% endif %}
+  </p>
+</div>
+
+{% stylesheet %}
+  .footer-copyright {
+    display: flex;
+    align-items: center;
+  }
+
+  .footer-copyright__text {
+    margin: 0;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.copyright",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_copyright_symbol",
+      "label": "t:settings.show_copyright_symbol",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shop_name",
+      "label": "t:settings.show_shop_name",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "custom_text",
+      "label": "t:settings.custom_text",
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "type_preset",
+      "label": "t:settings.type_preset",
+      "options": [
+        {
+          "value": "paragraph",
+          "label": "t:options.paragraph"
+        },
+        {
+          "value": "h6",
+          "label": "t:options.heading_6"
+        }
+      ],
+      "default": "paragraph"
+    }
+  ]
+}
+{% endschema %}

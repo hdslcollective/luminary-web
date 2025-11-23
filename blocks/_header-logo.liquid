@@ -1,0 +1,68 @@
+{% liquid
+  assign image = settings.logo
+  assign block_settings = block.settings
+
+  if block_settings.inverse and settings.logo_inverse
+    assign image = settings.logo_inverse
+  endif
+%}
+
+<div class="header-logo" {{ block.shopify_attributes }}>
+  <a href="{{ routes.root_url }}" class="header-logo__link">
+    {%- if image -%}
+      {{-
+        image
+        | image_url: width: 600
+        | image_tag:
+          width: image.width,
+          height: image.height,
+          class: 'header-logo__image',
+          alt: shop.name,
+          loading: 'eager'
+      -}}
+    {%- else -%}
+      <span class="header-logo__text">{{ shop.name }}</span>
+    {%- endif -%}
+  </a>
+</div>
+
+{% stylesheet %}
+  .header-logo {
+    display: flex;
+    align-items: center;
+  }
+
+  .header-logo__link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: currentColor;
+  }
+
+  .header-logo__image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .header-logo__text {
+    font-size: var(--font-heading-size);
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.logo",
+  "settings": [
+    {
+      "type": "checkbox",
+      "label": "t:settings.use_inverse_logo",
+      "id": "inverse",
+      "default": false,
+      "visible_if": "{{ settings.logo_inverse }}"
+    }
+  ]
+}
+{% endschema %}

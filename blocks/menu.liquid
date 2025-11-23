@@ -1,0 +1,64 @@
+{% liquid
+  assign block_settings = block.settings
+  assign menu = linklists[block_settings.menu]
+%}
+
+<div class="menu-block" {{ block.shopify_attributes }}>
+  {% if block_settings.heading != blank %}
+    <h3 class="menu-block__heading">{{ block_settings.heading }}</h3>
+  {% endif %}
+
+  <ul class="menu-block__list">
+    {% for link in menu.links %}
+      <li class="menu-block__item">
+        <a href="{{ link.url }}" class="menu-block__link">
+          {{ link.title }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% stylesheet %}
+  .menu-block__heading {
+    margin-bottom: 1rem;
+  }
+
+  .menu-block__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .menu-block__link {
+    text-decoration: none;
+    color: currentColor;
+  }
+
+  .menu-block__link:hover {
+    text-decoration: underline;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.menu",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "Quick Links"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "t:settings.menu",
+      "default": "footer"
+    }
+  ]
+}
+{% endschema %}

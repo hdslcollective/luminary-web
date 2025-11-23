@@ -1,0 +1,63 @@
+{% liquid
+  assign block_settings = block.settings
+%}
+
+<div class="footer-policy-list" {{ block.shopify_attributes }}>
+  <ul class="footer-policy-list__list">
+    {% if shop.privacy_policy %}
+      <li class="footer-policy-list__item">
+        <a href="{{ shop.privacy_policy.url }}" class="footer-policy-list__link">
+          {{ 'sections.footer.privacy_policy' | t }}
+        </a>
+      </li>
+    {% endif %}
+    {% if shop.refund_policy %}
+      <li class="footer-policy-list__item">
+        <a href="{{ shop.refund_policy.url }}" class="footer-policy-list__link">
+          {{ 'sections.footer.refund_policy' | t }}
+        </a>
+      </li>
+    {% endif %}
+    {% if shop.shipping_policy %}
+      <li class="footer-policy-list__item">
+        <a href="{{ shop.shipping_policy.url }}" class="footer-policy-list__link">
+          {{ 'sections.footer.shipping_policy' | t }}
+        </a>
+      </li>
+    {% endif %}
+    {% if shop.terms_of_service %}
+      <li class="footer-policy-list__item">
+        <a href="{{ shop.terms_of_service.url }}" class="footer-policy-list__link">
+          {{ 'sections.footer.terms_of_service' | t }}
+        </a>
+      </li>
+    {% endif %}
+  </ul>
+</div>
+
+{% stylesheet %}
+  .footer-policy-list__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md, 1rem);
+  }
+
+  .footer-policy-list__link {
+    text-decoration: none;
+    color: currentColor;
+  }
+
+  .footer-policy-list__link:hover {
+    text-decoration: underline;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.policy_list",
+  "settings": []
+}
+{% endschema %}

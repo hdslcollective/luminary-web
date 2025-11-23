@@ -1,0 +1,127 @@
+{% liquid
+  assign product = closest.product | default: section.settings.product
+  assign block_settings = block.settings
+%}
+
+<div
+  class="product-swatches spacing-style"
+  style="
+    {% render 'spacing-style', settings: block_settings %}
+    --product-swatches-alignment: {{ block_settings.product_swatches_alignment }};
+    --product-swatches-alignment-mobile: {{ block_settings.product_swatches_alignment_mobile }};
+  "
+  {{ block.shopify_attributes }}
+>
+  {% render 'variant-swatches', product_resource: product %}
+</div>
+
+{% stylesheet %}
+  .product-swatches {
+    display: flex;
+    justify-content: var(--product-swatches-alignment-mobile, flex-start);
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-swatches {
+      justify-content: var(--product-swatches-alignment, flex-start);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:content.swatches",
+  "settings": [
+    {
+      "type": "select",
+      "id": "product_swatches_alignment",
+      "label": "t:settings.alignment_desktop",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "t:options.left"
+        },
+        {
+          "value": "center",
+          "label": "t:options.center"
+        },
+        {
+          "value": "flex-end",
+          "label": "t:options.right"
+        }
+      ],
+      "default": "flex-start"
+    },
+    {
+      "type": "select",
+      "id": "product_swatches_alignment_mobile",
+      "label": "t:settings.alignment_mobile",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "t:options.left"
+        },
+        {
+          "value": "center",
+          "label": "t:options.center"
+        },
+        {
+          "value": "flex-end",
+          "label": "t:options.right"
+        }
+      ],
+      "default": "flex-start"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_padding",
+      "label": "t:settings.hide_padding",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "product_swatches_padding_top",
+      "label": "t:settings.padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 4,
+      "visible_if": "{{ block.settings.hide_padding == false }}"
+    },
+    {
+      "type": "range",
+      "id": "product_swatches_padding_bottom",
+      "label": "t:settings.padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 4,
+      "visible_if": "{{ block.settings.hide_padding == false }}"
+    },
+    {
+      "type": "range",
+      "id": "product_swatches_padding_left",
+      "label": "t:settings.padding_left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ block.settings.hide_padding == false }}"
+    },
+    {
+      "type": "range",
+      "id": "product_swatches_padding_right",
+      "label": "t:settings.padding_right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ block.settings.hide_padding == false }}"
+    }
+  ]
+}
+{% endschema %}

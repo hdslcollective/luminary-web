@@ -1,0 +1,73 @@
+{% liquid
+  assign collection = block.settings.collection
+  assign block_settings = block.settings
+%}
+
+<a
+  href="{{ collection.url | default: '#' }}"
+  class="collection-link"
+  {{ block.shopify_attributes }}
+>
+  {% if block_settings.show_image and collection.featured_image %}
+    <div class="collection-link__image-wrapper">
+      {{
+        collection.featured_image
+        | image_url: width: 600
+        | image_tag:
+          class: 'collection-link__image',
+          alt: collection.title,
+          loading: 'lazy'
+      }}
+    </div>
+  {% endif %}
+  <span class="collection-link__title">
+    {{ collection.title | default: 'Collection' }}
+  </span>
+</a>
+
+{% stylesheet %}
+  .collection-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: currentColor;
+  }
+
+  .collection-link__image-wrapper {
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    overflow: hidden;
+    border-radius: var(--border-radius, 0);
+  }
+
+  .collection-link__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .collection-link:hover {
+    opacity: 0.8;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.collection_link",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "t:settings.collection"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "label": "t:settings.show_image",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

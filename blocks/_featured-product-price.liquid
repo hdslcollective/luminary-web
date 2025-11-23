@@ -1,0 +1,94 @@
+{% liquid
+  assign product = closest.product | default: section.settings.product
+  assign current_variant = product.selected_or_first_available_variant
+  assign block_settings = block.settings
+%}
+
+<div class="product-price" {{ block.shopify_attributes }}>
+  <div class="product-price__container">
+    {% if block_settings.show_sale_price_first and current_variant.compare_at_price > current_variant.price %}
+      <span class="product-price__sale {% if block_settings.type_preset %}type-preset--{{ block_settings.type_preset }}{% endif %}">
+        {{ current_variant.price | money }}
+      </span>
+      <span class="product-price__compare {% if block_settings.type_preset %}type-preset--{{ block_settings.type_preset }}{% endif %}">
+        {{ current_variant.compare_at_price | money }}
+      </span>
+    {% else %}
+      <span class="product-price__regular {% if block_settings.type_preset %}type-preset--{{ block_settings.type_preset }}{% endif %}">
+        {{ current_variant.price | money }}
+      </span>
+      {% if current_variant.compare_at_price > current_variant.price %}
+        <span class="product-price__compare {% if block_settings.type_preset %}type-preset--{{ block_settings.type_preset }}{% endif %}">
+          {{ current_variant.compare_at_price | money }}
+        </span>
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .product-price__container {
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+  }
+
+  .product-price__compare {
+    text-decoration: line-through;
+    opacity: 0.7;
+  }
+
+  .product-price__sale {
+    color: var(--color-sale, currentColor);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.price",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_sale_price_first",
+      "label": "t:settings.show_sale_price_first",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "type_preset",
+      "label": "t:settings.type_preset",
+      "options": [
+        {
+          "value": "h1",
+          "label": "t:options.heading_1"
+        },
+        {
+          "value": "h2",
+          "label": "t:options.heading_2"
+        },
+        {
+          "value": "h3",
+          "label": "t:options.heading_3"
+        },
+        {
+          "value": "h4",
+          "label": "t:options.heading_4"
+        },
+        {
+          "value": "h5",
+          "label": "t:options.heading_5"
+        },
+        {
+          "value": "h6",
+          "label": "t:options.heading_6"
+        },
+        {
+          "value": "paragraph",
+          "label": "t:options.paragraph"
+        }
+      ],
+      "default": "h5"
+    }
+  ]
+}
+{% endschema %}

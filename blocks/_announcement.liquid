@@ -1,0 +1,108 @@
+{% liquid
+  assign block_settings = block.settings
+%}
+
+<div class="announcement-block" {{ block.shopify_attributes }}>
+  {% if block_settings.link != blank %}
+    <a href="{{ block_settings.link }}" class="announcement-block__link">
+      <div class="announcement-block__content">
+        {% if block_settings.icon != 'none' %}
+          <span class="announcement-block__icon">
+            {% render 'icon', icon: block_settings.icon %}
+          </span>
+        {% endif %}
+        <span class="announcement-block__text">{{ block_settings.text }}</span>
+      </div>
+    </a>
+  {% else %}
+    <div class="announcement-block__content">
+      {% if block_settings.icon != 'none' %}
+        <span class="announcement-block__icon">
+          {% render 'icon', icon: block_settings.icon %}
+        </span>
+      {% endif %}
+      <span class="announcement-block__text">{{ block_settings.text }}</span>
+    </div>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .announcement-block {
+    width: 100%;
+    text-align: center;
+  }
+
+  .announcement-block__link {
+    text-decoration: none;
+    color: currentColor;
+  }
+
+  .announcement-block__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .announcement-block__icon {
+    display: flex;
+    align-items: center;
+  }
+
+  .announcement-block__icon svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .announcement-block__text {
+    font-size: 0.875rem;
+  }
+
+  .announcement-block:hover {
+    opacity: 0.8;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.announcement",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "Announce something here"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:settings.link"
+    },
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "t:settings.icon",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:options.none"
+        },
+        {
+          "value": "info",
+          "label": "t:options.info"
+        },
+        {
+          "value": "star",
+          "label": "t:options.star"
+        },
+        {
+          "value": "truck",
+          "label": "t:options.truck"
+        }
+      ],
+      "default": "none"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,90 @@
+{% liquid
+  assign block_settings = block.settings
+%}
+
+<div class="email-signup" {{ block.shopify_attributes }}>
+  {% form 'customer', class: 'email-signup__form' %}
+    {% if form.posted_successfully? %}
+      <p class="email-signup__success">
+        {{ 'newsletter.success' | t }}
+      </p>
+    {% else %}
+      <div class="email-signup__field-wrapper">
+        <input
+          type="email"
+          name="contact[email]"
+          class="email-signup__input"
+          placeholder="{{ block_settings.placeholder | default: 'Enter your email' }}"
+          required
+          autocomplete="email"
+        >
+        <button type="submit" class="email-signup__button button">
+          {{ block_settings.button_label | default: 'Subscribe' }}
+        </button>
+      </div>
+      {% if form.errors %}
+        <p class="email-signup__error">
+          {{ form.errors | default_errors }}
+        </p>
+      {% endif %}
+    {% endif %}
+  {% endform %}
+</div>
+
+{% stylesheet %}
+  .email-signup__form {
+    width: 100%;
+  }
+
+  .email-signup__field-wrapper {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .email-signup__input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid currentColor;
+    border-radius: var(--border-radius, 0);
+    background: transparent;
+    color: currentColor;
+  }
+
+  .email-signup__input::placeholder {
+    color: currentColor;
+    opacity: 0.6;
+  }
+
+  .email-signup__button {
+    white-space: nowrap;
+  }
+
+  .email-signup__success,
+  .email-signup__error {
+    margin-top: 0.5rem;
+  }
+
+  .email-signup__error {
+    color: var(--color-error, #f00);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.email_signup",
+  "settings": [
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "t:settings.placeholder",
+      "default": "Enter your email"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:settings.button_label",
+      "default": "Subscribe"
+    }
+  ]
+}
+{% endschema %}
