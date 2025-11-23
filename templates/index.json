@@ -141,9 +141,18 @@
               "blocks": {}
             }
           },
-          "block_order": []
+          "block_order": [
+            "featured-product-title",
+            "featured-product-price",
+            "featured-product-gallery",
+            "featured-product-swatches"
+          ]
         }
       },
+      "block_order": [
+        "media",
+        "featured-product"
+      ],
       "name": "t:names.featured_product",
       "settings": {
         "product": "luminary",
